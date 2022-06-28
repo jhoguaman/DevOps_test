@@ -27,9 +27,9 @@ jobs:
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets.AWS_DNS}}
+          host: ${{secrets.AWS_DNS_PROD}}
           username: ubuntu
-          key: ${{secrets.AWS_PK}}
+          key: ${{secrets.AWS_PK_PROD}}
           envs: GITHUB_SHA
           script: |
             sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
