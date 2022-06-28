@@ -33,6 +33,6 @@ jobs:
           envs: GITHUB_SHA
           script: |
             sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
-            sudo docker stop nginx-test
-            sudo docker rm nginx-test
-            sudo docker run nginx-test
+            sudo docker stop ${{secrets.DOCKER_USERNAME}}/nginx-test
+            sudo docker rm ${{secrets.DOCKER_USERNAME}}/nginx-test
+            sudo docker run ${{secrets.DOCKER_USERNAME}}/nginx-test
