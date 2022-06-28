@@ -32,4 +32,4 @@ jobs:
           key: ${{secrets.AWS_PK}}
           envs: GITHUB_SHA
           script: |
-            sudo docker run hello-world
+            docker run hello-world
