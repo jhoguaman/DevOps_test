@@ -32,4 +32,7 @@ jobs:
           key: ${{secrets.AWS_PK}}
           envs: GITHUB_SHA
           script: |
-            docker run hello-world
+            sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
+            sudo docker stop nginx-test
+            sudo docker rm nginx-test
+            sudo docker run nginx-test
