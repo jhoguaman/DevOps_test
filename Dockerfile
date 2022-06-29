@@ -1,4 +1,4 @@
-FROM node:8.12.1
+FROM node:latest
 RUN mkdir -p /src/app/
 WORKDIR /src/app/
 COPY app/package.json /src/app/package.json 
