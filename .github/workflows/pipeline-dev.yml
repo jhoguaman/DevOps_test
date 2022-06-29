@@ -2,23 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["develop", "main"]
+    branches: ["develop"]
   pull_request:
-    branches: ["develop", "main"]
+    branches: ["develop"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
-    steps:
-      - name: Set env vars (dev)
-        if: endsWith(github.ref, '/develop')
-          environment: DEV
-
-      - name: Set env vars (prod)
-        if: endsWith(github.ref, '/main')
-          environment: PROD
-
+    environment: DEV
       - uses: actions/checkout@v3
       - name: docker login
         env:
