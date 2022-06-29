@@ -2,13 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["main"]
+    branches: ["develop"]
   pull_request:
-    branches: ["main"]
+    branches: ["develop"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: DEV
 
     steps:
       - uses: actions/checkout@v3
@@ -27,9 +28,9 @@ jobs:
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
         with:
-          host: ${{secrets.AWS_DNS_PROD}}
+          host: ${{secrets.AWS_DNS}}
           username: ubuntu
-          key: ${{secrets.AWS_PK_PROD}}
+          key: ${{secrets.AWS_PK}}
           envs: GITHUB_SHA
           script: |
             sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
