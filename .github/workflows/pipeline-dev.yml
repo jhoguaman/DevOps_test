@@ -28,7 +28,7 @@ jobs:
       #        run: npm test
 
       - name: Install Eslint
-        run: npm install eslint
+        run: npm install eslint -g
 
       - name: Run lint
         run: npm lint
