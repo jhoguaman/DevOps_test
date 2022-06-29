@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: docker login
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
@@ -18,11 +19,18 @@ jobs:
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USERNAME}}/nginx-test
+        run: docker build . --file Dockerfile --tag ${{secrets.DOCKER_USERNAME}}/nginx-prod
 
       - name: Docker Push
-        run: docker push ${{secrets.DOCKER_USERNAME}}/nginx-test
+        run: docker push ${{secrets.DOCKER_USERNAME}}/nginx-prod
 
+  deploy:
+    name: deploy
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: PROD
+
+    steps:
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
         with:
@@ -31,7 +39,7 @@ jobs:
           key: ${{secrets.AWS_PK}}
           envs: GITHUB_SHA
           script: |
-            sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
-            sudo docker stop app-test
-            sudo docker rm app-test
-            sudo docker run --detach --name app-test ${{secrets.DOCKER_USERNAME}}/nginx-test
+            sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-prod
+            sudo docker stop app-prod
+            sudo docker rm app-prod
+            sudo docker run --detach -p 3000:3000 --name app-prod ${{secrets.DOCKER_USERNAME}}/nginx-prod

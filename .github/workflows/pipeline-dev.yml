@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: docker login
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
@@ -23,6 +24,13 @@ jobs:
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USERNAME}}/nginx-test
 
+  deploy:
+    name: deploy
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: DEV
+
+    steps:
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
         with:
@@ -34,4 +42,4 @@ jobs:
             sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
             sudo docker stop app-test
             sudo docker rm app-test
-            sudo docker run --detach --name app-test ${{secrets.DOCKER_USERNAME}}/nginx-test
+            sudo docker run --detach -p 3000:3000 --name app-test ${{secrets.DOCKER_USERNAME}}/nginx-test
