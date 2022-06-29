@@ -28,6 +28,7 @@ jobs:
 
 
     environment: DEV
+    steps:
 
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
@@ -43,6 +44,7 @@ jobs:
             sudo docker run --detach --name app-test ${{secrets.DOCKER_USERNAME}}/nginx-test
 
     environment: PROD
+    steps:
 
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
