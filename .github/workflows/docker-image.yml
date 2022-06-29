@@ -26,7 +26,9 @@ jobs:
         run: docker push ${{secrets.DOCKER_USERNAME}}/nginx-test
 
 
-
+jobs:
+  build:
+    runs-on: ubuntu-latest
     environment: DEV
     steps:
 
@@ -43,6 +45,9 @@ jobs:
             sudo docker rm app-test
             sudo docker run --detach --name app-test ${{secrets.DOCKER_USERNAME}}/nginx-test
 
+jobs:
+  build:
+    runs-on: ubuntu-latest
     environment: PROD
     steps:
 
