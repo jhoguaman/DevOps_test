@@ -11,6 +11,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+
       - name: docker login
         env:
           DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
@@ -23,6 +24,13 @@ jobs:
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USERNAME}}/nginx-test
 
+  deploy:
+    name: Deploy dev
+    needs: [build]
+    runs-on: ubuntu-latest
+    environment: DEV
+
+    steps:
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
         with:
