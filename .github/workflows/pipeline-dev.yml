@@ -1,4 +1,4 @@
-name: pipeline dev
+name: pipeline develop
 
 on:
   push:
@@ -24,14 +24,14 @@ jobs:
       - name: Install dependencies
         run: npm install -g
 
-      #      - name: Run test
-      #        run: npm test
+      # - name: Run test
+      #   run: npm test
 
-      - name: Install Eslint
-        run: npm install eslint -g
+      # - name: Install Eslint
+      #   run: npm install eslint -g
 
-      - name: Run lint
-        run: npm lint
+      # - name: Run lint
+      #   run: npm lint
 
       - name: docker login
         env:

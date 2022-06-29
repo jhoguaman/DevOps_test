@@ -1,4 +1,4 @@
-name: pipeline prod
+name: pipeline production
 
 on:
   push:
