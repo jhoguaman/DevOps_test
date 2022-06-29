@@ -2,14 +2,14 @@ name: Docker Image CI
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["main"]
   pull_request:
-    branches: ["develop"]
+    branches: ["main"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment: DEV
+    environment: PROD
       - uses: actions/checkout@v3
       - name: docker login
         env:
