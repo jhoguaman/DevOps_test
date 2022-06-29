@@ -9,9 +9,17 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    environment: DEV
 
     steps:
+      - name: Set env vars (dev)
+        if: endsWith(github.ref, '/develop')
+        environment: DEV
+
+      - name: Set env vars (prod)
+        if: endsWith(github.ref, '/main')
+        environment: PROD
+
       - uses: actions/checkout@v3
       - name: docker login
         env:
@@ -24,32 +32,6 @@ jobs:
 
       - name: Docker Push
         run: docker push ${{secrets.DOCKER_USERNAME}}/nginx-test
-
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: DEV
-    steps:
-
-      - name: Docker Pull and run from Hub
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{secrets.AWS_DNS}}
-          username: ubuntu
-          key: ${{secrets.AWS_PK}}
-          envs: GITHUB_SHA
-          script: |
-            sudo docker pull ${{secrets.DOCKER_USERNAME}}/nginx-test
-            sudo docker stop app-test
-            sudo docker rm app-test
-            sudo docker run --detach --name app-test ${{secrets.DOCKER_USERNAME}}/nginx-test
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    environment: PROD
-    steps:
 
       - name: Docker Pull and run from Hub
         uses: appleboy/ssh-action@master
